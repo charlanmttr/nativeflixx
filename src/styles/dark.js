@@ -1,6 +1,6 @@
 export const dark = {
     drawerBackground: '#090A0E',
-    background: '#191A30',
+    background: '#191A30', //#141a29
     title: '#FFFFFF',
     text: '#EFEFEF',
     firstHighlight: '#E72F49',
