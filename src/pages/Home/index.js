@@ -8,13 +8,14 @@ import Header from '../../components/Header'
 import SliderItem from '../../components/SliderItem'
 
 import api, { key } from '../../services/api'
-import { getListMovies } from '../../utils/movies'
+import { getListMovies, randomBanner } from '../../utils/movies'
 
 export default function Home() {
     const [nowMovies, setNowMovies] = useState([])
     const [popularMovies, setPopularMovies] = useState([])
     const [topRatedMovies, setTopRatedMovies] = useState([])
     const [loading, setLoading] = useState(true)
+    const [banner, setBanner] = useState({})
 
     useEffect(() => {
         let isActive = true;
@@ -53,6 +54,8 @@ export default function Home() {
                 setNowMovies(nowList)
                 setPopularMovies(popularList)
                 setTopRatedMovies(topList)
+
+                setBanner(nowData.data.results[randomBanner(nowData.data.results)])
     
                 setLoading(false)
             }
@@ -97,7 +100,7 @@ export default function Home() {
                     >
                         <Banner
                             resizeMethod="resize"
-                            source={{ uri: 'https://c4.wallpaperflare.com/wallpaper/500/442/354/outrun-vaporwave-hd-wallpaper-preview.jpg' }}
+                            source={{ uri: `https://image.tmdb.org/t/p/original/${banner.poster_path}` }}
                         />
                     </BannerButton>
                     <SliderMovie
