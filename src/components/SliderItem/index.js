@@ -4,10 +4,11 @@ import { Ionicons } from '@expo/vector-icons'
 import theme from '../../styles'
 import { Container, BannerItem, Title, Rate, RateContainer } from './styles'
 
-export default function SliderItem({ data }) {
+export default function SliderItem({ data, navigateDetailsPage }) {
     return (
         <Container
             activeOpacity={0.8}
+            onPress={() => navigateDetailsPage(data)}
         >
             <BannerItem
                 source={{ uri: `https://image.tmdb.org/t/p/original/${data.poster_path}` }}

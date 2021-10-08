@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, ScrollView } from 'react-native'
 import { Container, SearchContainer, Input, SearchButton, Title, BannerButton, Banner, SliderMovie } from './styles'
 import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 import theme from '../../styles'
 import Header from '../../components/Header'
@@ -16,6 +17,8 @@ export default function Home() {
     const [topRatedMovies, setTopRatedMovies] = useState([])
     const [loading, setLoading] = useState(true)
     const [banner, setBanner] = useState({})
+
+    const navigation = useNavigation()
 
     useEffect(() => {
         let isActive = true;
@@ -46,17 +49,17 @@ export default function Home() {
                 }),
             ])
 
-            if(isActive){
+            if (isActive) {
                 const nowList = getListMovies(10, nowData.data.results)
                 const popularList = getListMovies(8, popularData.data.results)
                 const topList = getListMovies(8, topData.data.results)
-    
+
                 setNowMovies(nowList)
                 setPopularMovies(popularList)
                 setTopRatedMovies(topList)
 
                 setBanner(nowData.data.results[randomBanner(nowData.data.results)])
-    
+
                 setLoading(false)
             }
         }
@@ -64,11 +67,15 @@ export default function Home() {
         getMovies()
 
         return () => {
-            isActive= false
+            isActive = false
             abortController.abort()
         }
 
     }, [])
+
+    const navigateDetailsPage = (movie) => {
+        navigation.navigate('Detail', { id: movie.id })
+    }
 
     if (loading) {
         return (
@@ -87,7 +94,7 @@ export default function Home() {
                         placeHolderTextColor={theme.text}
                     />
                     <SearchButton>
-                        <Feather name="search" size={30} color={theme.title} />
+                        <Feather name="search" size={30} color="#FFF" />
                     </SearchButton>
                 </SearchContainer>
                 <ScrollView
@@ -96,7 +103,7 @@ export default function Home() {
                     <Title>Em cartaz</Title>
                     <BannerButton
                         activeOpacity={0.8}
-                        onPress={() => { }}
+                        onPress={() => navigateDetailsPage(banner)}
                     >
                         <Banner
                             resizeMethod="resize"
@@ -107,7 +114,7 @@ export default function Home() {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         data={nowMovies}
-                        renderItem={({ item }) => <SliderItem data={item} />}
+                        renderItem={({ item }) => <SliderItem data={item} navigateDetailsPage={navigateDetailsPage} />}
                         keyExtractor={(item) => String(item.id)}
                     />
 
@@ -116,7 +123,7 @@ export default function Home() {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         data={popularMovies}
-                        renderItem={({ item }) => <SliderItem data={item} />}
+                        renderItem={({ item }) => <SliderItem data={item} navigateDetailsPage={navigateDetailsPage} />}
                         keyExtractor={(item) => String(item.id)}
                     />
 
@@ -125,7 +132,7 @@ export default function Home() {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         data={topRatedMovies}
-                        renderItem={({ item }) => <SliderItem data={item} />}
+                        renderItem={({ item }) => <SliderItem data={item} navigateDetailsPage={navigateDetailsPage} />}
                         keyExtractor={(item) => String(item.id)}
                     />
 
