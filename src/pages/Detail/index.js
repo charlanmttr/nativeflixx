@@ -69,11 +69,14 @@ export default function Detail({ id }) {
                     source={{ uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}` }}
                 />
 
-                <ButtonLink
-                    onPress={() => isVisible(true)}
-                >
-                    <Feather name="link" size={24} color="#FFF" />
-                </ButtonLink>
+                {
+                    movie.homepage &&
+                    <ButtonLink
+                        onPress={() => isVisible(true)}
+                    >
+                        <Feather name="link" size={24} color="#FFF" />
+                    </ButtonLink>
+                }
 
                 <Title numberOfLines={1}>{movie.title}</Title>
                 <ContentArea>
