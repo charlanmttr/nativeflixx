@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Header, HeaderButton, Banner, ButtonLink, Title, ContentArea, Rate, ListGenres, Description } from './styles'
+import { Container, Header, HeaderButton, Banner, ButtonLink, Title, ContentArea, Rate, ListGenres, Description, CloseButton, ModalHeader, ModalTitle } from './styles'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Stars from 'react-native-stars'
 
+import { WebView } from 'react-native-webview'
+
 import theme from '../../styles'
 import api, { key } from '../../services/api'
 import Genres from '../../components/Genres'
-import { ScrollView } from 'react-native'
+import { Modal, ScrollView } from 'react-native'
 
 export default function Detail({ id }) {
     const navigation = useNavigation()
     const route = useRoute()
 
     const [movie, setMovie] = useState({})
+    const [visible, isVisible] = useState(false)
 
     useEffect(() => {
         let isActive = true
@@ -66,7 +69,9 @@ export default function Detail({ id }) {
                     source={{ uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}` }}
                 />
 
-                <ButtonLink>
+                <ButtonLink
+                    onPress={() => isVisible(true)}
+                >
                     <Feather name="link" size={24} color="#FFF" />
                 </ButtonLink>
 
@@ -96,6 +101,26 @@ export default function Detail({ id }) {
                     {movie.overview}
                 </Description>
             </ScrollView>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={visible}
+            >
+                <>
+                    <ModalHeader>
+                        <CloseButton onPress={() => isVisible(false)}>
+                            <Feather name="x" size={22} color="#FFF" />
+                        </CloseButton>
+                        <ModalTitle
+                            numberOfLines={1}
+                        >{movie?.title}</ModalTitle>
+                    </ModalHeader>
+                    <WebView
+                        source={{ uri: movie?.homepage }}
+                    />
+                </>
+            </Modal>
         </Container>
     )
 }

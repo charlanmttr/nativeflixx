@@ -86,3 +86,22 @@ export const Description = styled.Text`
     line-height: 23px;
     text-align: justify;
 `;
+
+export const ModalHeader = styled.View`
+    flex-direction: row;
+    align-items: center;
+    background-color: ${theme.background};
+    padding: 14px;
+    margin-top: 30px;
+    border-top-right-radius: 20px ;
+`;
+
+export const ModalTitle = styled.Text`
+    color: ${theme.title};
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+export const CloseButton = styled.TouchableOpacity`
+    padding: 0 10px;
+`;
