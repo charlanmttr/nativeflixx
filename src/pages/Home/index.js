@@ -17,6 +17,7 @@ export default function Home() {
     const [topRatedMovies, setTopRatedMovies] = useState([])
     const [loading, setLoading] = useState(true)
     const [banner, setBanner] = useState({})
+    const [input, setInput] = useState('')
 
     const navigation = useNavigation()
 
@@ -70,8 +71,14 @@ export default function Home() {
             isActive = false
             abortController.abort()
         }
-
     }, [])
+
+    const handleSearch = () => {
+        if (input === '') return
+
+        navigation.navigate('Search', { name: input })
+        setInput('')
+    }
 
     const navigateDetailsPage = (movie) => {
         navigation.navigate('Detail', { id: movie.id })
@@ -92,8 +99,12 @@ export default function Home() {
                     <Input
                         placeholder="Digite o titulo desejado"
                         placeHolderTextColor={theme.text}
+                        value={input}
+                        onChangeText={(text) => setInput(text)}
                     />
-                    <SearchButton>
+                    <SearchButton
+                        onPress={() => handleSearch()}
+                    >
                         <Feather name="search" size={30} color="#FFF" />
                     </SearchButton>
                 </SearchContainer>

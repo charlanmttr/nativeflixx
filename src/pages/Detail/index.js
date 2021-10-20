@@ -27,8 +27,7 @@ export default function Detail({ id }) {
                     api_key: key,
                     language: 'pt-BR'
                 }
-            })
-                .catch(err => alert('Opsss, deu erro. Retorno: ' + err.message))
+            }).catch(err => alert('Opsss, deu erro. Retorno: ' + err.message))
 
             if (isActive) {
                 setMovie(response.data)
