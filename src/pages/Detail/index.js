@@ -19,7 +19,7 @@ export default function Detail({ id }) {
     const [visible, isVisible] = useState(false)
 
     useEffect(() => {
-        let isActive = true
+        let isActive = true;
 
         async function getMovie() {
             const response = await api.get(`movie/${route.params?.id}`, {
@@ -27,7 +27,7 @@ export default function Detail({ id }) {
                     api_key: key,
                     language: 'pt-BR'
                 }
-            }).catch(err => alert('Opsss, deu erro. Retorno: ' + err.message))
+            }).catch(err => alert(`Opsss, deu erro. Retorno: ${err.message}`));
 
             if (isActive) {
                 setMovie(response.data)
@@ -39,7 +39,7 @@ export default function Detail({ id }) {
         }
 
         return () => {
-            isActive = false
+            isActive = false;
         }
     }, [])
 

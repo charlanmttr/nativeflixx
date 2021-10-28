@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, ActivityIndicator } from 'react-native'
 
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { LoadingContainer, Container } from './styles';
+import { LoadingContainer, Container, ListMovies } from './styles';
+
 import api, { key } from '../../services/api';
+import SearchItem from '../../components/SearchItem'
 
 export default function Search() {
     const navigation = useNavigation();
@@ -25,7 +27,6 @@ export default function Search() {
                 }
             })
 
-
             if (isActive) {
                 setMovie(response.data.results)
                 isLoading(false)
@@ -41,6 +42,10 @@ export default function Search() {
         }
     }, [])
 
+    const navigateDetailsPage = (item) => {
+        navigation.navigate('Detail', { id: item.id });
+    }
+
     if (loading) {
         return (
             <LoadingContainer>
@@ -49,7 +54,12 @@ export default function Search() {
         )
     } else return (
         <Container>
-            <Text>Search</Text>
+            <ListMovies
+                data={movie}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item }) => <SearchItem data={item} navigate={() => navigateDetailsPage(item)} />}
+            />
         </Container>
     )
 }
