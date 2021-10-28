@@ -7,6 +7,11 @@ import theme from '../../styles'
 export default function index({ data, navigate }) {
 
     const detailMovie = () => {
+        if (data.release_date === '') {
+            alert(`O filme ${data.title} ainda não foi lançado!`)
+            return;
+        }
+
         navigate(data)
     }
 

@@ -9,6 +9,7 @@ export const Container = styled.TouchableOpacity`
 export const Banner = styled.Image`
     width: 100%;
     height: 180px;
+    margin-bottom: 4px;
 `;
 
 export const Rate = styled.Text`
