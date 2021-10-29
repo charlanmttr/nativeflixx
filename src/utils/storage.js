@@ -24,6 +24,7 @@ export async function removeMovie(key, id) {
     let currentSavedMovies = myMovies.filter(item => item.id !== id)
 
     await AsyncStorage.setItem(key, JSON.stringify(currentSavedMovies));
+    return currentSavedMovies
 }
 
 export async function isSaved(key, movie) {
