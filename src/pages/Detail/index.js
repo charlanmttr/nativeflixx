@@ -9,6 +9,7 @@ import { WebView } from 'react-native-webview'
 import theme from '../../styles'
 import api, { key } from '../../services/api'
 import Genres from '../../components/Genres'
+import { addMovie, isSaved, removeMovie } from '../../utils/storage'
 import { Modal, ScrollView } from 'react-native'
 
 export default function Detail({ id }) {
@@ -17,6 +18,7 @@ export default function Detail({ id }) {
 
     const [movie, setMovie] = useState({})
     const [visible, isVisible] = useState(false)
+    const [savedMovie, isSavedMovie] = useState(false)
 
     useEffect(() => {
         let isActive = true;
@@ -31,6 +33,9 @@ export default function Detail({ id }) {
 
             if (isActive) {
                 setMovie(response.data)
+
+                const saved = await isSaved('@nativeflix.mymovies', response.data)
+                isSavedMovie(saved)
             }
         }
 
@@ -43,6 +48,16 @@ export default function Detail({ id }) {
         }
     }, [])
 
+    const favoriteMovie = async (movie) => {
+        if (savedMovie) {
+            await removeMovie('@nativeflix.mymovies', movie.id)
+            isSavedMovie(false)
+        } else {
+            await addMovie('@nativeflix.mymovies', movie)
+            isSavedMovie(true)
+        }
+    }
+
     return (
         <Container>
             <Header>
@@ -53,12 +68,25 @@ export default function Detail({ id }) {
                         color="#FFF"
                     />
                 </HeaderButton>
-                <HeaderButton>
-                    <Ionicons
-                        name="bookmark"
-                        size={28}
-                        color="#FFF"
-                    />
+                <HeaderButton
+                    onPress={() => favoriteMovie(movie)}
+                >
+                    {
+                        savedMovie ? (
+                            <Ionicons
+                                name="bookmark"
+                                size={28}
+                                color="#FFF"
+                            />
+                        ) : (
+                            <Ionicons
+                                name="bookmark-outline"
+                                size={28}
+                                color="#FFF"
+                            />
+                        )
+                    }
+
                 </HeaderButton>
             </Header>
             <ScrollView showsHorizontalScrollIndicator={false}>

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import theme from '../../styles'
 
-
 export const Container = styled.TouchableOpacity`
     padding: 8px 0;
 `;
