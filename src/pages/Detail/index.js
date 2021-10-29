@@ -48,7 +48,7 @@ export default function Detail({ id }) {
         }
     }, [])
 
-    const favoriteMovie = async (movie) => {
+    const handleFavoriteMovie = async (movie) => {
         if (savedMovie) {
             await removeMovie('@nativeflix.mymovies', movie.id)
             isSavedMovie(false)
@@ -69,7 +69,7 @@ export default function Detail({ id }) {
                     />
                 </HeaderButton>
                 <HeaderButton
-                    onPress={() => favoriteMovie(movie)}
+                    onPress={() => handleFavoriteMovie(movie)}
                 >
                     {
                         savedMovie ? (
